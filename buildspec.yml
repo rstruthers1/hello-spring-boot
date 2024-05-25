@@ -2,8 +2,16 @@ version: 0.2
 
 phases:
   install:
-    runtime-versions:
-      docker: 19
+    commands:
+      - echo Installing Docker...
+      - yum install -y docker
+      - service docker start
+      - echo Installing Gradle...
+      - yum install -y wget
+      - wget https://services.gradle.org/distributions/gradle-7.3.3-bin.zip
+      - unzip gradle-7.3.3-bin.zip
+      - mv gradle-7.3.3 /opt/gradle
+      - ln -s /opt/gradle/bin/gradle /usr/bin/gradle
   pre_build:
     commands:
       - echo Logging in to Docker Hub...
@@ -11,6 +19,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo Building the JAR file...
+      - gradle build
       - echo Building the Docker image...
       - docker build -t hello-world-spring-boot .
       - docker tag hello-world-spring-boot:latest rmstruthers1/hello-world-spring-boot:latest
@@ -19,3 +29,6 @@ phases:
       - echo Pushing the Docker image...
       - docker push rmstruthers1/hello-world-spring-boot:latest
       - echo Build completed on `date`
+artifacts:
+  files:
+    - build/libs/hello-0.0.1-SNAPSHOT.jar
