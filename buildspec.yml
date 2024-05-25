@@ -5,13 +5,7 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
-      - echo Installing Gradle...
-      - apt-get update
-      - apt-get install -y wget unzip
-      - wget https://services.gradle.org/distributions/gradle-7.3.3-bin.zip
-      - unzip gradle-7.3.3-bin.zip
-      - mv gradle-7.3.3 /opt/gradle
-      - ln -s /opt/gradle/bin/gradle /usr/bin/gradle
+      - echo "Using pre-installed Gradle"
   pre_build:
     commands:
       - echo Logging in to Docker Hub...
