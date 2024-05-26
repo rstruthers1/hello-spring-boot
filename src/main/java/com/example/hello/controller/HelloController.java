@@ -8,7 +8,7 @@ public class HelloController {
 
         @GetMapping("/hello")
         public String hello() {
-            return "Hello k8s!!!!";
+            return "Hello automatic deployment!";
         }
 
 }
