@@ -11,6 +11,8 @@ aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER_NAME --role-a
 echo "Current kubectl context:"
 kubectl config current-context
 
+aws configure list
+
 # Verify cluster access
 echo "Verifying access to the cluster..."
 kubectl get nodes
