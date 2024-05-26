@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::777605092423:role/eksctl-hello-world-cluster-cluster-ServiceRole-9xR4lLis6Mt3
+      username: eks-codebuild
+      groups:
+        - system:masters
