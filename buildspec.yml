@@ -11,6 +11,8 @@ phases:
       - echo Logging in to Docker Hub...
       - echo $DOCKER_PASSWORD
       - echo $DOCKER_USERNAME
+      - echo $DOCKER_PASSWORD > /tmp/docker_password.txt
+      - cat /tmp/docker_password.txt
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
   build:
     commands:
