@@ -20,3 +20,5 @@ kubectl get nodes
 # Update the Kubernetes deployment
 echo "Updating Kubernetes deployment..."
 kubectl set image deployment/hello-world-spring-boot hello-world-spring-boot=rmstruthers1/hello-world-spring-boot:latest
+
+echo "hello"
