@@ -1,0 +1,1 @@
+aws cloudformation create-stack --stack-name HelloDatabaseStack --template-body file://hello-cloudformation.yaml --region us-west-2 --parameters ParameterKey=DBInstanceClass,ParameterValue=db.t3.micro ParameterKey=DBAllocatedStorage,ParameterValue=20
