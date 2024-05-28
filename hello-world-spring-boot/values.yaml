@@ -43,6 +43,11 @@ service:
   type: LoadBalancer
   port: 80
 
+env:
+  SPRING_DATASOURCE_URL: jdbc:mysql://hellodatabasestack-hellodbinstance-kltrxccnrbhj.c6xvpz5aew6j.us-west-2.rds.amazonaws.com:3306/HelloWorldDB
+  SPRING_DATASOURCE_USERNAME: masteruser
+  SPRING_PROFILES_ACTIVE: prod
+
 ingress:
   enabled: false
   className: ""

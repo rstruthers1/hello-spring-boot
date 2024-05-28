@@ -39,4 +39,8 @@ out/
 
 ### zip file
 *.tgz
-/scripts/build-and-push-docker-image.sh
+/scripts/build-and-push-docker-image.ps
+/scripts/apply-secrets-example.ps
+
+### local environmental variables that should not be shared
+.env
