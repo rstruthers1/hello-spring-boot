@@ -10,6 +10,15 @@ public class Greeting {
     private Long id;
     private String message;
 
+    public Greeting() {
+    }
+
+    public Greeting(long id, String message) {
+        this.id = id;
+        this.message = message;
+
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;
