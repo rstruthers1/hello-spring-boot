@@ -5,6 +5,8 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
+      - echo "Installing Helm..."
+      - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
       - echo "Using pre-installed Gradle"
   pre_build:
     commands:
@@ -20,6 +22,8 @@ phases:
       - echo Building the Docker image...
       - docker build -t hello-world-spring-boot .
       - docker tag hello-world-spring-boot:latest rmstruthers1/hello-world-spring-boot:latest
+      - echo Packaging the Helm chart...
+      - helm package hello-world-spring-boot -d packaged-charts/
   post_build:
     commands:
       - echo Pushing the Docker image...
@@ -28,4 +32,5 @@ phases:
 artifacts:
   files:
     - build/libs/hello-0.0.1-SNAPSHOT.jar
-    - deploy.sh
+    - packaged-charts/*
+
