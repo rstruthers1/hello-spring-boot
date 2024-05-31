@@ -33,4 +33,5 @@ artifacts:
   files:
     - build/libs/hello-0.0.1-SNAPSHOT.jar
     - packaged-charts/*
+    - deployspec.yml
 
