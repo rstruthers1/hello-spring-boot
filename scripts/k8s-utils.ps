@@ -1,0 +1,11 @@
+Function ConvertFrom-Base64($base64) {
+    return [System.Text.Encoding]::ASCII.GetString([System.Convert]::FromBase64String($base64))
+}
+
+Function ConvertTo-Base64($plain) {
+    return [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($plain))
+}
+
+kubectl patch secret hello-world-spring-boot-secrets -p '{\"data\":{\"BASIC_PASSWORD\":\"REDACTED\"}}'
+
+kubectl get secret hello-world-spring-boot-secrets -o yaml > my-secret.yaml
