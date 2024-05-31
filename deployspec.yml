@@ -39,4 +39,4 @@ phases:
       - kubectl get nodes || echo "Failed to get nodes."
       - kubectl get pods || echo "Failed to get pods."
       - echo "Deploying with Helm..."
-      - helm upgrade --install hello-world-spring-boot packaged-charts/hello-world-spring-boot-0.1.0.tgz --namespace default --set image.repository=rmstruthers1/hello-world-spring-boot,image.tag=latest
+      - helm upgrade --install hello-world-spring-boot packaged-charts/hello-world-spring-boot-0.1.0.tgz --namespace default --set image.repository=rmstruthers1/hello-world-spring-boot,image.tag=$CODEBUILD_RESOLVED_SOURCE_VERSION --reuse-values --force
