@@ -1,0 +1,42 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing AWS CLI, aws-iam-authenticator, and kubectl..."
+      - apt-get update
+      - apt-get install -y awscli jq
+      - curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2021-01-05/bin/linux/amd64/aws-iam-authenticator
+      - chmod +x ./aws-iam-authenticator
+      - mv aws-iam-authenticator /usr/local/bin/
+      - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+      - install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+  pre_build:
+    commands:
+      - echo "Logging in to Docker Hub..."
+      - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+  build:
+    commands:
+      - echo "Deploying to EKS..."
+      - echo "Assuming role and setting environment variables for AWS CLI..."
+      - CREDENTIALS=$(aws sts assume-role --role-arn arn:aws:iam::777605092423:role/eksctl-hello-world-cluster-cluster-ServiceRole-9xR4lLis6Mt3 --role-session-name eks-codebuild --duration-seconds 900)
+      - export AWS_ACCESS_KEY_ID=$(echo $CREDENTIALS | jq -r '.Credentials.AccessKeyId')
+      - export AWS_SECRET_ACCESS_KEY=$(echo $CREDENTIALS | jq -r '.Credentials.SecretAccessKey')
+      - export AWS_SESSION_TOKEN=$(echo $CREDENTIALS | jq -r '.Credentials.SessionToken')
+      - export AWS_REGION=us-west-2
+      - echo "Temporary AWS credentials set."
+      - echo "Updating kubeconfig..."
+      - aws sts get-caller-identity
+      - aws eks update-kubeconfig --name hello-world-cluster
+      - export KUBECONFIG=/root/.kube/config
+      - cat /root/.kube/config
+      - echo "Verifying AWS CLI configuration..."
+      - aws configure list
+      - echo "Setting KUBECONFIG environment variable..."
+      - export KUBECONFIG=/root/.kube/config
+      - echo "Verifying access to Kubernetes cluster..."
+      - kubectl get nodes || echo "Failed to get nodes."
+      - kubectl get pods || echo "Failed to get pods."
+      - echo "Updating Kubernetes deployment..."
+      - kubectl set image deployment/hello-world-spring-boot hello-world-spring-boot=rmstruthers1/hello-world-spring-boot:latest
+      - kubectl rollout restart deployment/hello-world-spring-boot
