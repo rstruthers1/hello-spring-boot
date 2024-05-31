@@ -43,11 +43,11 @@ spec:
               value: {{ .Values.env.SPRING_DATASOURCE_URL }}
             - name: SPRING_DATASOURCE_USERNAME
               value: {{ .Values.env.SPRING_DATASOURCE_USERNAME }}
-            - name: BASIC_PASSWORD
+            - name: SPRING_SECURITY_USER_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: hello-world-spring-boot-secrets
-                  key: BASIC_PASSWORD
+                  key: SPRING_SECURITY_USER_PASSWORD
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
