@@ -39,6 +39,4 @@ phases:
       - kubectl get nodes || echo "Failed to get nodes."
       - kubectl get pods || echo "Failed to get pods."
       - echo "Deploying with Helm..."
-      - export IMAGE_TAG=$CODEBUILD_RESOLVED_SOURCE_VERSION
-      - envsubst < values-template.yaml > values.yaml
-      - helm upgrade --install hello-world-spring-boot packaged-charts/hello-world-spring-boot-0.1.0.tgz --namespace default -f values.yaml --reuse-values --force
+      - helm upgrade --install hello-world-spring-boot packaged-charts/hello-world-spring-boot-0.1.0.tgz --namespace default --set image.repository=rmstruthers1/hello-world-spring-boot,image.tag=$CODEBUILD_RESOLVED_SOURCE_VERSION --reuse-values --force
