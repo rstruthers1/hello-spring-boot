@@ -8,7 +8,7 @@ image:
   repository: rmstruthers1/hello-world-spring-boot
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "{{ .Values.image.tag }}"
+  tag: "latest"
 
 imagePullSecrets: []
 nameOverride: ""
