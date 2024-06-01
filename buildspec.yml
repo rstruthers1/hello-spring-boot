@@ -5,11 +5,21 @@ phases:
     runtime-versions:
       java: corretto17
     commands:
+      - echo "Installing AWS CLI, aws-iam-authenticator, kubectl, and Helm..."
+      - apt-get update
+      - apt-get install -y awscli jq
+      - curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2021-01-05/bin/linux/amd64/aws-iam-authenticator
+      - chmod +x ./aws-iam-authenticator
+      - mv aws-iam-authenticator /usr/local/bin/
       - echo "Installing Helm..."
       - curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
       - echo "Using pre-installed Gradle"
   pre_build:
     commands:
+      - aws --version
+      - aws sts get-caller-identity
+      - aws secretsmanager get-secret-value --secret-id docker_hub_password --query SecretString --output text --region us-west-2 > docker_password.txt
+      - cat docker_password.txt
       - echo Logging in to Docker Hub...
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
   build:
