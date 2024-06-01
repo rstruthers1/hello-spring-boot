@@ -11,8 +11,6 @@ phases:
   pre_build:
     commands:
       - echo Logging in to Docker Hub...
-      - echo $DOCKER_PASSWORD
-      - echo $DOCKER_USERNAME
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
   build:
     commands:
@@ -25,6 +23,7 @@ phases:
       - docker tag rmstruthers1/hello-world-spring-boot:$CODEBUILD_RESOLVED_SOURCE_VERSION rmstruthers1/hello-world-spring-boot:latest
       - echo Packaging the Helm chart...
       - helm package hello-world-spring-boot -d packaged-charts/
+      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION > codebuild_resolved_source_version.txt
   post_build:
     commands:
       - echo Pushing the Docker image...
@@ -36,4 +35,4 @@ artifacts:
     - build/libs/hello-0.0.1-SNAPSHOT.jar
     - packaged-charts/*
     - deployspec.yml
-
+    - codebuild_resolved_source_version.txt
