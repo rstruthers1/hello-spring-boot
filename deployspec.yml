@@ -16,8 +16,7 @@ phases:
     commands:
       - aws --version
       - aws sts get-caller-identity
-      - aws secretsmanager get-secret-value --secret-id docker_hub_password --query SecretString --output text --region us-west-2 > docker_password.json
-      - export DOCKER_PASSWORD=$(jq -r '.DOCKER_PASSWORD' docker_password.json)
+      - export DOCKER_PASSWORD=$(cat docker_password.txt)
       - echo Logging in to Docker Hub...
       - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
   build:
